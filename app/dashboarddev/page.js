@@ -10,19 +10,24 @@ const page = () => {
     const router = useRouter();
 
     const [user, setUser] = useState(null);
+    const [jwttkn, setJwttkn] = useState('');
+
 
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
         // This callback will be called whenever the user's login status changes
         setUser(user);
       });
+
+      const storedToken = localStorage.getItem('sandboxApiResponse');
+      setJwttkn(storedToken)
     
 
 
       return () => unsubscribe();
     }, [auth]);
 
-    console.log(user);
+    
 
     const handleLogout = async ()=>{
       
@@ -34,10 +39,13 @@ const page = () => {
             console.log(error);
         }
     }
+   
 
+    
   return (
     <>
     <div>dashboard</div>
+    <p>{jwttkn}</p>
     
     <button onClick={handleLogout}>logout</button>
     </>

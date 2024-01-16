@@ -57,16 +57,13 @@ export default function login(){
     };
 
     const handleOTPSubmit = async () => {
-        try{
+        try {
             await confirmationResult.confirm(otp);
-            
-
+    
             setOtp('');
             const apiKey = process.env.NEXT_PUBLIC_APP_API_KEY;
             const apiSecret = process.env.NEXT_PUBLIC_APP_API_SECRET;
-            // console.log(apiKey)
-            // console.log(apiSecret)
-
+    
             const options = {
                 method: 'POST',
                 headers: {
@@ -76,17 +73,23 @@ export default function login(){
                     'x-api-version': '1.0',
                 },
             };
-            
-            fetch('http://localhost:8080/https://api.sandbox.co.in/authenticate', options)
-                .then(response => response.json())
-                .then(response => console.log(response))
-                .catch(err => console.error(err));
-            
+    
+            // Fetch the access token
+            const response = await fetch('http://localhost:8080/https://api.sandbox.co.in/authenticate', options);
+            const data = await response.json();
+    
+            console.log(data);
+    
+            // Save the access token to local storage
+            localStorage.setItem('sandboxApiResponse', JSON.stringify(data.access_token));
+    
+            // Redirect to the dashboard after saving the token
             router.push('/dashboarddev');
-        }catch(error){
-            console.error(error)
+        } catch (error) {
+            console.error(error);
         }
     };
+    
 
     return(
         <>
