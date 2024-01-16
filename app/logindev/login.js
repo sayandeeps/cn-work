@@ -3,7 +3,10 @@ import React, {useState , useEffect} from 'react';
 import {getAuth , RecaptchaVerifier , signInWithPhoneNumber} from "firebase/auth";
 import {app} from "../config";
 import {useRouter} from "next/navigation";
+import axios from 'axios';
 
+
+require('dotenv').config();
 
 
 export default function login(){
@@ -41,6 +44,10 @@ export default function login(){
             const confirmation = await signInWithPhoneNumber(auth , formattedPhoneNumber, window.recapthaVerifier);
             setConfirmationResult(confirmation);
             setOtpSent(true);
+
+
+      
+
             setPhoneNumber('');
             alert("OTP has been sent");
 
@@ -52,8 +59,30 @@ export default function login(){
     const handleOTPSubmit = async () => {
         try{
             await confirmationResult.confirm(otp);
+            
+
             setOtp('');
-            router.push('/dashboard');
+            const apiKey = process.env.NEXT_PUBLIC_APP_API_KEY;
+            const apiSecret = process.env.NEXT_PUBLIC_APP_API_SECRET;
+            // console.log(apiKey)
+            // console.log(apiSecret)
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    accept: 'application/json',
+                    'x-api-key': apiKey,
+                    'x-api-secret': apiSecret,
+                    'x-api-version': '1.0',
+                },
+            };
+            
+            fetch('http://localhost:8080/https://api.sandbox.co.in/authenticate', options)
+                .then(response => response.json())
+                .then(response => console.log(response))
+                .catch(err => console.error(err));
+            
+            router.push('/dashboarddev');
         }catch(error){
             console.error(error)
         }

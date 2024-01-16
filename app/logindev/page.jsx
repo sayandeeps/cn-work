@@ -14,7 +14,7 @@ const page = () => {
     useEffect(()=>{
         onAuthStateChanged(auth ,(user) => {
             if (user) {
-                router.push('./dashboardev');
+                router.push('./dashboarddev');
             }
         });
     } , [auth , router]);
