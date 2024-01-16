@@ -10,22 +10,28 @@ const page = () => {
     const router = useRouter();
 
     const [user, setUser] = useState(null);
-    const [jwttkn, setJwttkn] = useState('');
+    const [storedToken, setStoredToken] = useState('');
 
 
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        // This callback will be called whenever the user's login status changes
-        setUser(user);
+          setUser(user);
       });
 
-      const storedToken = localStorage.getItem('sandboxApiResponse');
-      setJwttkn(storedToken)
-    
-
-
       return () => unsubscribe();
-    }, [auth]);
+  }, [auth]);
+ useEffect(()=>{
+
+    const tokenFromLocalStorage = localStorage.getItem('sandboxApiResponse');
+
+    // Set the state with the retrieved token
+    if (tokenFromLocalStorage) {
+      setStoredToken(tokenFromLocalStorage);
+    }
+    console.log("life"+storedToken)
+
+  },[])
+ 
 
     
 
@@ -33,6 +39,7 @@ const page = () => {
       
         try {
             await signOut(auth);
+            localStorage.removeItem('sandboxApiResponse');
             router.push('/logindev')
 
         }catch (error){
@@ -45,7 +52,7 @@ const page = () => {
   return (
     <>
     <div>dashboard</div>
-    <p>{jwttkn}</p>
+    <p>{storedToken}</p>
     
     <button onClick={handleLogout}>logout</button>
     </>

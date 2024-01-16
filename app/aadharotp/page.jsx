@@ -73,6 +73,7 @@ const page = () => {
             console.error(error);
         }
     };
+    const storedToken = localStorage.getItem('sandboxApiResponse');
 
 
   return (

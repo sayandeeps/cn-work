@@ -84,7 +84,9 @@ export default function login(){
             localStorage.setItem('sandboxApiResponse', JSON.stringify(data.access_token));
     
             // Redirect to the dashboard after saving the token
-            router.push('/dashboarddev');
+            alert("You are signedin")
+
+            window.location.href = '/dashboarddev';
         } catch (error) {
             console.error(error);
         }
