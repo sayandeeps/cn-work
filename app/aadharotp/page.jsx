@@ -15,6 +15,10 @@ const page = () => {
     const auth = getAuth(app);
     const router = useRouter();
     const [user, setUser] = useState(null);
+    const [refid , setRefid] =useState('');
+
+    const [storedToken, setStoredToken] = useState('');
+
 
 
     useEffect(() => {
@@ -28,7 +32,17 @@ const page = () => {
         return () => unsubscribe();
       }, [auth]);
   
-      console.log(user);
+
+      useEffect(()=>{
+
+        const tokenFromLocalStorage = localStorage.getItem('sandboxApiResponse');
+    
+        // Set the state with the retrieved token
+        if (tokenFromLocalStorage) {
+          setStoredToken(JSON.parse(tokenFromLocalStorage));
+        }
+    
+      },[])
 
     const handleAadharnumChange = (e) => {
         setAadharnum(e.target.value);
@@ -43,43 +57,85 @@ const page = () => {
             
             const apiKey = process.env.NEXT_PUBLIC_APP_API_KEY;
             const apiSecret = process.env.NEXT_PUBLIC_APP_API_SECRET;
-           
-            // const options = {
-            //     method: 'POST',
-            //     headers: {
-            //         accept: 'application/json',
-            //         // Authorization: 'eyJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJBUEkiLCJyZWZyZXNoX3Rva2VuIjoiZXlKaGJHY2lPaUpJVXpVeE1pSjkuZXlKaGRXUWlPaUpCVUVraUxDSnpkV0lpT2lKamJHOTFaSFJsWTJocllXWjFibVJoUUdkdFlXbHNMbU52YlNJc0ltRndhVjlyWlhraU9pSnJaWGxmYkdsMlpWOXNiVXRETld0cWJGSk1aVTFKYlZsNFpVVnRSamhqWW05NU4zcGlURVJxVlNJc0ltbHpjeUk2SW1Gd2FTNXpZVzVrWW05NExtTnZMbWx1SWl3aVpYaHdJam94TnpNM01ERXdOVE15TENKcGJuUmxiblFpT2lKU1JVWlNSVk5JWDFSUFMwVk9JaXdpYVdGMElqb3hOekExTXpnNE1UTXlmUS5HSGJJWlY1QUpBcDVOQW9Zbk9DVnd3Q2NfTkFlM2hoUUdnaGtQczY2NEhpODF1OTRTTXJGVTlGVHk2dVdGcThxS0VEaW1uWG4wUF9qM1lBRVlZS3lMQSIsInN1YiI6ImNsb3VkdGVjaGthZnVuZGFAZ21haWwuY29tIiwiYXBpX2tleSI6ImtleV9saXZlX2xtS0M1a2psUkxlTUltWXhlRW1GOGNib3k3emJMRGpVIiwiaXNzIjoiYXBpLnNhbmRib3guY28uaW4iLCJleHAiOjE3MDU0NzQ1MzIsImludGVudCI6IkFDQ0VTU19UT0tFTiIsImlhdCI6MTcwNTM4ODEzMn0.bbu1g4cN9BQ_sRsVNog-o0Gkuc71YQpZJ8QoJAajRKBmfcgPhYECQebMy9hzVzBMOC7YBmVxEFNWc96VoJetMQ',
+            console.log(storedToken)
+            console.log(aadharnum)
+            const options = {
+                method: 'POST',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: storedToken,
+                    'x-api-key': apiKey,
+                    'x-api-secret': apiSecret,
+                    'x-api-version': '1.0',
+                    'content-type': 'application/json'
 
-            //         'x-api-key': apiKey,
-            //         'x-api-secret': apiSecret,
-            //         'x-api-version': '1.0',
-            //     },
-            // };
+                },
+                body: JSON.stringify({aadhaar_number: `${aadharnum}` })
+
+            };
             
-            // fetch('http://localhost:8080/https://api.sandbox.co.in/authenticate', options)
-            //     .then(response => response.json())
-            //     .then(response => console.log(response))
-            //     .catch(err => console.error(err));
+            const response = await fetch('http://localhost:8080/https://api.sandbox.co.in/kyc/aadhaar/okyc/otp', options);
+            const data = await response.json();
+            console.log(data)
+            // Check if the response contains the ref_id
+            if (data && data.data && data.data.ref_id) {
+                const refId = data.data.ref_id;
+                setRefid(refId)
+
+                // Now you can use the refId variable for further processing or storage.
+            } else {
+                console.error('Error: Unable to retrieve ref_id from the response');
+            }
+
+
            
             setOtpSent(true);
 
 
       
-
-            setAadharnum('');
+            console.log(refid)
+            // setAadharnum('');
             alert("OTP has been sent");
 
         }catch(error){
             console.error(error);
         }
     };
-    const storedToken = localStorage.getItem('sandboxApiResponse');
+
+    const handleOTPSubmit = async () => {
+        alert("hi")
+    }
+
+    
 
 
   return (
     <>
 
     <h1>Aadhar Authenticate</h1>
+
+    <input 
+        type="tel" 
+        value = {aadharnum}
+        onChange={handleAadharnumChange}
+        placeholder='enter the aadhar number'
+        />
+
+        <input 
+        type="text" 
+        value = {otp}
+        onChange={handleOTPChange}
+        placeholder='enter the OTP'
+        />
+
+        <button
+        onClick={otpSent ? handleOTPSubmit : handleSendOtp}
+        >
+            {otpSent ? 'submit OTP' : 'send OTP'}
+        </button>
+
+        <h3>{refid}</h3>
+
 
 
 
