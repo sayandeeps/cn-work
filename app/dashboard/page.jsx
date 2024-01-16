@@ -18,7 +18,7 @@ const page = () => {
                         <div className="w-full px-4 lg:w-2/5">
                             <div className="z-10 w-full p-10 shadow-md bg-gray-50 dark:bg-gray-900 rounded-lg ">
                                 <h2 className="text-xl font-bold leading-tight mb-7 md:text-2xl dark:text-gray-300">
-                                    Login to your account</h2>
+                                    ma chuda </h2>
                                 <form action="" className="mt-4">
                                     <div>
                                         <label for="" className="block text-gray-700 dark:text-gray-300">Email:</label>
