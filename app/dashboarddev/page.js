@@ -3,6 +3,7 @@ import React,{useState , useEffect} from 'react'
 import {getAuth , signOut} from 'firebase/auth'
 import {app} from '../config'
 import {useRouter} from 'next/navigation';
+import Layout from '../components/layout'
 
 const page = () => {
 
@@ -28,7 +29,6 @@ const page = () => {
     if (tokenFromLocalStorage) {
       setStoredToken(tokenFromLocalStorage);
     }
-    console.log("life"+storedToken)
 
   },[])
  
@@ -52,12 +52,16 @@ const page = () => {
 
     
   return (
+   
     <>
+     <Layout>
     <div>dashboard</div>
     <p>{storedToken}</p>
     
     <button onClick={handleLogout}>logout</button>
+    </Layout>
     </>
+    
   )
 }
 

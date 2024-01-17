@@ -76,9 +76,7 @@ const page = () => {
     const handleSendOtp = async () => {
         try{
             
-            
-            console.log(storedToken)
-            console.log(aadharnum)
+        
             const options = {
                 method: 'POST',
                 headers: {
@@ -96,7 +94,6 @@ const page = () => {
             
             const response = await fetch('http://localhost:8080/https://api.sandbox.co.in/kyc/aadhaar/okyc/otp', options);
             const data = await response.json();
-            console.log(data)
             // Check if the response contains the ref_id
             if (data && data.data && data.data.ref_id) {
                 const refId = data.data.ref_id;
@@ -113,7 +110,6 @@ const page = () => {
 
 
       
-            console.log(refid)
             // setAadharnum('');
             alert("OTP has been sent");
 
@@ -151,7 +147,6 @@ const page = () => {
           const data = await response.json();
           
           // Handle the response data as needed
-          console.log(data);
       
           // For example, update the UI based on the verification status
           if (data && data.code === 200 && data.data && data.data.status === 'VALID') {
@@ -167,7 +162,6 @@ const page = () => {
                 gender : data.data.gender,
             });
             promise.then(function (response) {
-                console.log(response); // Success
             }, function (error) {
                 console.log(error); // Failure
             });
