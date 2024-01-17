@@ -90,7 +90,8 @@ const page = () => {
                     Complete your KYC
                 </a>
             </div>
-            <p className="text-gray-500 text-lg mt-4 mb-8">Address: {address} , phone number : {phone}</p>
+            <p className="text-gray-500 text-lg mt-4 mb-8">Address : {address} </p>
+            <p  className="text-gray-500 text-lg mt-4 mb-8"> phone number : {phone}</p>
             <div>
                 <div className="flex items-center gap-8 tab-indicator border-b border-gray-200">
                 <span

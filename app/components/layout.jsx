@@ -32,7 +32,7 @@ const layout = ({children}) => {
             <img src="/logo.svg" alt="" height="30" width="30" />
             <a href="#" className="flex items-center gap-4">
                 
-                <span className="text-2xl font-semibold">Shopanel</span>
+                <span className="text-2xl font-semibold">Cloud Tech Ka Funda</span>
             </a>
             
             <button onClick={handleLogout} className="ml-auto relative text-gray-500 hover:text-gray-800 hidden md:block">
