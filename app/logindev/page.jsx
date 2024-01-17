@@ -20,7 +20,7 @@ const page = () => {
     } , [auth , router]);
   return (
     <>
-    <h1>firebase</h1>
+
     <Login/>
 
     
