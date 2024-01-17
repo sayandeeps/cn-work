@@ -115,7 +115,7 @@ export default function login(){
             // Redirect to the dashboard after saving the token
             alert("You are signedin")
 
-            // window.location.href = '/dashboarddev';
+            window.location.href = '/dashboarddev';
         } catch (error) {
             console.error(error);
         }
