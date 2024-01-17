@@ -40,6 +40,8 @@ const page = () => {
         try {
             await signOut(auth);
             localStorage.removeItem('sandboxApiResponse');
+            localStorage.removeItem('uid');
+
             router.push('/logindev')
 
         }catch (error){

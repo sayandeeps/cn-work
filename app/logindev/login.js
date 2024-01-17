@@ -4,6 +4,21 @@ import {getAuth , RecaptchaVerifier , signInWithPhoneNumber} from "firebase/auth
 import {app} from "../config";
 import {useRouter} from "next/navigation";
 import axios from 'axios';
+import { Client, Databases } from "appwrite";
+
+const client = new Client();
+
+const databases = new Databases(client);
+
+const appwriteurl = process.env.NEXT_PUBLIC_APP_APPWRITE_URL;
+const appwritepid = process.env.NEXT_PUBLIC_APP_APPWRITE_PID;
+const appwritedid = process.env.NEXT_PUBLIC_APP_APPWRITE_DID;
+const appwritecid = process.env.NEXT_PUBLIC_APP_APPWRITE_CID;
+
+client
+    .setEndpoint(appwriteurl) // Your API Endpoint
+    .setProject(appwritepid) // Your project ID
+;
 
 
 require('dotenv').config();
@@ -48,7 +63,7 @@ export default function login(){
 
       
 
-            setPhoneNumber('');
+            
             alert("OTP has been sent");
 
         }catch(error){
@@ -77,11 +92,26 @@ export default function login(){
             // Fetch the access token
             const response = await fetch('http://localhost:8080/https://api.sandbox.co.in/authenticate', options);
             const data = await response.json();
+
+            const formattedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Remove non-digit characters
+            const documentId = `user_${formattedPhoneNumber.slice(0, 15)}`;
+            const promise = databases.createDocument(appwritedid, appwritecid, documentId, {
+                phone : `${phoneNumber}` ,
+            });
+
+            promise.then(function (response) {
+                console.log(response); // Success
+            }, function (error) {
+                console.log(error); // Failure
+            });
+
     
             console.log(data);
     
             // Save the access token to local storage
             localStorage.setItem('sandboxApiResponse', JSON.stringify(data.access_token));
+            localStorage.setItem('uid', documentId );
+
     
             // Redirect to the dashboard after saving the token
             alert("You are signedin")
