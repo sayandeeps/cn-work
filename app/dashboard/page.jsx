@@ -3,6 +3,7 @@ import React, { useState , useEffect } from 'react'
 import Layout from '../components/layout'
 import { Client, Databases } from "appwrite";
 import {useRouter} from 'next/navigation';
+import Userprofile from './userprofile'
 
 
 const client = new Client();
@@ -21,118 +22,59 @@ client
 
 
 const page = () => {
-
-  const [activeTab, setActiveTab] = useState('security');
-  const [uid,setUid] = useState('')
-  const [name,setname]= useState('')
-  const [address,setaddress]= useState('')
-  const [careof,setcareof]= useState('')
-  const [kycdone,setkycdone]= useState('')
-  const [dob,setdob]= useState('')
-  const [gender,setgender]= useState('')
-  const [phone,setphone]= useState('')
-
-  useEffect(() => {
+    const [activeTab, setActiveTab] = useState('security');
+    const [uid,setUid] = useState('')
+    
+    const [kycdone,setkycdone]= useState('')
 
   
-    const fetchData = async () => {
-      try {
-        console.log(uid)
-        setUid(localStorage.getItem('uid'))
-        const response = await databases.getDocument(appwritedid, appwritecid, uid);
-        console.log(response.phone);
+    useEffect(() => {
   
-        setname(response.name);
-        setaddress(response.address);
-        setcareof(response.careof);
-        setkycdone(response.kycdone);
-        setdob(response.dob);
-        setgender(response.gender);
-        setphone(response.phone);
-  
-        // Use the callback form of setMyObject to ensure you are working with the updated state
-       console.log(gender)
-        console.log(); // This might still log the old state, as setMyObject is asynchronous
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-  
-    fetchData();
-  }, );
-  
-  
-
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
-
-
+    
+      const fetchData = async () => {
+        try {
+          console.log(uid)
+          setUid(localStorage.getItem('uid'))
+          const response = await databases.getDocument(appwritedid, appwritecid, uid);
+          console.log(response.kyc_done);
+    
+   
+          setkycdone(response.kyc_done);
+          
+    
+          // Use the callback form of setMyObject to ensure you are working with the updated state
+         console.log(gender)
+          console.log(); // This might still log the old state, as setMyObject is asynchronous
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+    
+      fetchData();
+    },  );
+    
+    console.log(kycdone)
+    
   return (
-    <Layout>
-
-            <div className="relative">
-                <img src="/bg.jpg" className="w-full h-72 object-cover rounded-lg" alt=""/>
-                <a href="#" className="absolute top-4 left-4 w-8 h-8 rounded-full bg-white/50 hover:bg-white flex items-center justify-center">
-                    <i className='bx bx-edit-alt' ></i>
-                </a>
-            </div>
-            <div className="flex items-center gap-4 mt-4">
-                <img src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png" className="w-28 h-28 object-cover rounded-full" alt=""/>
-                <div>
-                    <h2 className="text-2xl font-semibold mb-2">{name} ({gender})</h2>
-                    <span className="text-lg text-gray-500">{careof}</span>
-                    <p className="text-lg text-gray-500">{dob}</p>
-                </div>
-                <a href="#" className="py-2 px-4 rounded bg-blue-600 sm:flex items-center gap-2 text-white hover:bg-blue-700 ml-auto hidden">
-                    Complete your KYC
-                </a>
-            </div>
-            <p className="text-gray-500 text-lg mt-4 mb-8">Address : {address} </p>
-            <p  className="text-gray-500 text-lg mt-4 mb-8"> phone number : {phone}</p>
-            <div>
-                <div className="flex items-center gap-8 tab-indicator border-b border-gray-200">
-                <span
-          onClick={() => handleTabClick('security')}
-          className={activeTab === 'security' ? 'active' : ''}
-        >
-          My Portfolio
-        </span>
-        <span
-          onClick={() => handleTabClick('activities')}
-          className={activeTab === 'activities' ? 'active' : ''}
-        >
-          My Activities
-        </span>
-        <span
-          onClick={() => handleTabClick('contact')}
-          className={activeTab === 'contact' ? 'active' : ''}
-        >
-          Contact Info
-        </span>
-                </div>
-                <div className="tab-content mt-4" id="security">
-        {activeTab === 'security' && (
-          <h2 className="text-2xl font-semibold"> Info</h2>
-        )}
-      </div>
-      <div className="tab-content mt-4 hidden" id="activities">
-        {activeTab === 'activities' && (
-          <h2 className="text-2xl font-semibold">My Activities</h2>
-        )}
-        efr
-      </div>
-      <div className="tab-content mt-4 hidden" id="contact">
-        {activeTab === 'contact' && (
-          <h2 className="text-2xl font-semibold">Contact Info</h2>
-        )}
-      </div>
-            </div>
-        
-     
-    </Layout>
+    <>
+    {kycdone ? (
+        // Render content when kycdone is true
+        <div>
+            <Userprofile/>
+        </div>
+    ) : (
+        // Render alternative content when kycdone is false
+        <Layout>
+           <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+  <strong class="font-bold">KYC not done yet ! </strong>
+  <span class="block sm:inline"> <a href="/aadharotp"><u>Click here</u>  </a>To Complete your KYC</span>
+  <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+    <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+  </span>
+</div>
+        </Layout>
+    )}
+</>
   )
 }
 

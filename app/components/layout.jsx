@@ -49,7 +49,7 @@ const layout = ({children}) => {
 
     {/* sidebar start */}
     <div className="fixed top-16 transition-all overflow-hidden left-0 w-64 bg-white border-r border-gray-200 bottom-0 sidebar-collapse z-40" id="sidebar">
-        <a href="#" className="p-4 flex items-center gap-4 hover:bg-blue-50">
+        <a href="/dashboard" className="p-4 flex items-center gap-4 hover:bg-blue-50">
             <img src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png" className="w-16 aspect-square object-cover rounded" alt=""/>
             <div className="whitespace-nowrap sidebar-user-profile">
                 <h3 className="text-lg font-semibold mb-1">Fajar Std</h3>

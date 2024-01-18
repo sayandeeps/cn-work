@@ -5,7 +5,7 @@ import {app} from '../config'
 import {useRouter} from 'next/navigation';
 import Layout from '../components/layout'
 
-const page = () => {
+const userprofile = () => {
 
     const auth = getAuth(app);
     const router = useRouter();
@@ -65,4 +65,4 @@ const page = () => {
   )
 }
 
-export default page
+export default userprofile
