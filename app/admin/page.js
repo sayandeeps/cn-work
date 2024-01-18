@@ -1,7 +1,7 @@
 // Login.js
 'use client'
 import React, { useState } from 'react';
-import Admin from './Admin';
+import Admin from './admin';
 
 const Login = () => {
   const [username, setUsername] = useState('');

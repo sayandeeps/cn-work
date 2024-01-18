@@ -118,6 +118,9 @@ export default function login(){
             window.location.href = '/dashboard';
         } catch (error) {
             console.error(error);
+            alert(error)
+            window.location.href = '/logindev';
+
         }
     };
     

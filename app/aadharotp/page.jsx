@@ -166,9 +166,11 @@ const page = () => {
             });
 
             promise.then(function (response) {
+              console.log(response)
             }, function (error) {
                 console.log(error); // Failure
             });
+            console.log()
             window.location.href = '/dashboard';
 
           } else {
