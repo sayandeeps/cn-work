@@ -94,7 +94,7 @@ const page = () => {
 
             };
             
-            const response = await fetch('http://localhost:8080/https://api.sandbox.co.in/kyc/aadhaar/okyc/otp', options);
+            const response = await fetch('/api/kyc/aadhaar/okyc/otp', options);
             const data = await response.json();
             // Check if the response contains the ref_id
             if (data && data.data && data.data.ref_id) {
@@ -145,7 +145,7 @@ const page = () => {
           };
       
           // Call the second API to verify the OTP
-          const response = await fetch('http://localhost:8080/https://api.sandbox.co.in/kyc/aadhaar/okyc/otp/verify', options);
+          const response = await fetch('/api/kyc/aadhaar/okyc/otp/verify', options);
           const data = await response.json();
           
           // Handle the response data as needed
@@ -155,7 +155,7 @@ const page = () => {
             // OTP verification successful
             // Update UI or take further actions
             console.log('OTP verification successful');
-            alert("OTP verification successful")
+            
             const promise = databases.updateDocument(appwritedid, appwritecid, storedUid ,{
                 kyc_done : true,
                 name : data.data.name,
@@ -170,7 +170,7 @@ const page = () => {
             }, function (error) {
                 console.log(error); // Failure
             });
-            console.log()
+            alert("OTP verification successful")
             window.location.href = '/dashboard';
 
           } else {

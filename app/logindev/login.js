@@ -90,7 +90,7 @@ export default function login(){
             };
     
             // Fetch the access token
-            const response = await fetch('http://localhost:8080/https://api.sandbox.co.in/authenticate', options);
+            const response = await fetch('/api/authenticate', options);
             const data = await response.json();
 
             const formattedPhoneNumber = phoneNumber.replace(/\D/g, ''); // Remove non-digit characters
